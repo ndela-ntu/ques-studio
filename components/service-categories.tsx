@@ -1,12 +1,32 @@
-'use client';
+"use client";
 
 import { ServiceCategoryConsts } from "@/utils/constants/consts";
 import Link from "next/link";
-import { Carousel, CarouselApi, CarouselContent, CarouselItem } from "./ui/carousel";
+import {
+  Carousel,
+  CarouselApi,
+  CarouselContent,
+  CarouselItem,
+} from "./ui/carousel";
 import { useCallback, useEffect, useState } from "react";
 
 export default function ServiceCategories() {
-  const [api, setApi] = useState<CarouselApi>();
+  return (
+    <div className="carousel rounded-box">
+      {ServiceCategoryConsts.map((service) => (
+        <div className="carousel-item">
+          <Link
+            key={service.id}
+            href={`services/${service.id}`}
+            className="m-2.5 px-2.5 py-1 bg-cinereous text-ghostWhite rounded-3xl hover:bg-cornflowerBlue"
+          >
+            {service.name}
+          </Link>
+        </div>
+      ))}
+    </div>
+  );
+  /*const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
   const [count, setCount] = useState(0);
 
@@ -77,5 +97,5 @@ export default function ServiceCategories() {
         ))}
       </div>}
     </>
-  );
+  );*/
 }

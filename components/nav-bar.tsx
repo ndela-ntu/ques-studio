@@ -44,7 +44,7 @@ const Navbar: React.FC = () => {
   return (
     <nav className={`py-2.5`}>
       <div className="flex justify-between items-center">
-        <Link href="/" className="text-ghostWhite font-black text-xl md:text-2xl lg:text-3xl italic">
+        <Link href="/" className="text-ghostWhite font-black text-3xl md:text-4xl lg:text-5xl italic">
           QUES.STUDIO
         </Link>
 
