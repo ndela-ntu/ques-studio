@@ -10,7 +10,7 @@ export default function Home() {
       <ServiceCategories />
       <CoverImage src="/newCoverImage.jpeg" alt="cover image" />
       <div className="w-full text-center flex flex-col items-center justify-center p-1 md:p-2 lg:p-3">
-        <h1 className="text-3xl md:text-4xl font-bold text-cinereous">
+        <h1 className="text-2xl md:text-3xl font-bold text-cinereous">
           Welcome to Ques
         </h1>
         <p className="md:w-1/2 lg:w-1/2 mt-2 text-muted-foreground">
@@ -20,7 +20,8 @@ export default function Home() {
           puzzle, or even print your favorite photo, we’re here to help you turn
           your vision into reality.
         </p>
-        <h1 className="mt-5 mb-2.5 text-3xl md:text-4xl font-bold text-yaleBlue">
+        <div className="divider m-0" />
+        <h1 className="mt-5 text-2xl md:text-3xl font-bold text-yaleBlue">
           Browser our services
         </h1>
       </div>

@@ -32,6 +32,7 @@ const Navbar: React.FC = () => {
   const navItems: NavItem[] = [
     { name: "Home", href: "/" },
     { name: "About Us", href: "/about-us" },
+    { name: "Contact Us", href: "/contact-us" },
   ];
 
   const isActive = (href: string): boolean => {
@@ -44,7 +45,10 @@ const Navbar: React.FC = () => {
   return (
     <nav className={`py-2.5`}>
       <div className="flex justify-between items-center">
-        <Link href="/" className="text-ghostWhite font-black text-3xl md:text-4xl lg:text-5xl italic">
+        <Link
+          href="/"
+          className="text-ghostWhite font-black text-3xl md:text-4xl lg:text-5xl italic"
+        >
           QUES.STUDIO
         </Link>
 
@@ -55,7 +59,9 @@ const Navbar: React.FC = () => {
               key={item.name}
               href={item.href}
               className={`text-ghostWhite hover:text-gray-300 transition duration-300 ${
-                isActive(item.href) ? "font-bold border-b-1 border-antiFlashWhite" : ""
+                isActive(item.href)
+                  ? "font-bold border-b-1 border-antiFlashWhite"
+                  : ""
               }`}
             >
               {item.name}
@@ -69,7 +75,7 @@ const Navbar: React.FC = () => {
           onClick={toggleMenu}
           aria-label="Toggle menu"
         >
-          {isOpen ? <X /> :  <Menu />}
+          {isOpen ? <X /> : <Menu />}
         </button>
       </div>
 
@@ -85,7 +91,9 @@ const Navbar: React.FC = () => {
               key={item.name}
               href={item.href}
               className={`text-ghostWhite block py-1 pl-1 text-base font-medium hover:bg-gray-700 transition duration-300 ${
-                isActive(item.href) ? "bg-ghostWhite text-yaleBlue font-bold" : ""
+                isActive(item.href)
+                  ? "bg-ghostWhite text-yaleBlue font-bold"
+                  : ""
               }`}
               onClick={() => setIsOpen(false)}
             >

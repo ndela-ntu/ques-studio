@@ -1,5 +1,7 @@
 import { ServiceCategoryConsts } from "@/utils/constants/consts";
+import { MoveRight } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 
 export default async function Page({
@@ -30,6 +32,15 @@ export default async function Page({
         />
       </div>
       <div className="text-center md:w-[50%]">{service.description}</div>
+      <Link
+        href={`/service-request/${service.id}`}
+        className="flex my-3 mx-1.5 px-2.5 py-1 bg-yaleBlue text-ghostWhite rounded-3xl hover:bg-cinereous"
+      >
+        <span>Continue</span>
+        <span>
+          <MoveRight />
+        </span>
+      </Link>
     </div>
   );
 }

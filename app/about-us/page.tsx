@@ -1,6 +1,6 @@
 export default function Page() {
   return (
-    <div className="flex flex-col space-y-4 text-center">
+    <div className="min-h-screen flex flex-col space-y-4 text-center">
       <h1 className="text-4xl text-cinereous font-bold">About Us</h1>
       <p>
         Welcome to Ques Studio, where creativity meets craftsmanship. We are a
