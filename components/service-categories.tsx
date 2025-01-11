@@ -14,11 +14,10 @@ export default function ServiceCategories() {
   return (
     <div className="carousel rounded-box">
       {ServiceCategoryConsts.map((service) => (
-        <div className="carousel-item">
+        <div key={service.id} className="carousel-item">
           <Link
-            key={service.id}
             href={`services/${service.id}`}
-            className="m-2.5 px-2.5 py-1 bg-cinereous text-ghostWhite rounded-3xl hover:bg-cornflowerBlue"
+            className="my-3 mx-1.5 px-2.5 py-1 bg-cinereous text-ghostWhite rounded-3xl hover:bg-cornflowerBlue"
           >
             {service.name}
           </Link>

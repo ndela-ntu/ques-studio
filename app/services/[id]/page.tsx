@@ -19,11 +19,17 @@ export default async function Page({
 
   return (
     <div className="min-h-screen flex flex-col items-center space-y-2.5">
-      <h1 className="text-4xl text-cinereous font-bold">{service.name}</h1>
-      <div>
-        <Image src={service.categoryImageUrl} alt="Image of service" />
+      <h1 className="text-3xl text-cinereous font-bold">{service.name}</h1>
+      <div className="aspect-square relative w-[75%] md:w-[50%] lg:w-[25%] border-8 border-ghostWhite">
+        <Image
+          src={service.categoryImageUrl}
+          alt="Image of service"
+          fill
+          style={{ objectFit: "cover" }}
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+        />
       </div>
-      <div className="text-center">{service.description}</div>
+      <div className="text-center md:w-[50%]">{service.description}</div>
     </div>
   );
 }
