@@ -1,4 +1,4 @@
-import PhotoPrintsWidget from "@/components/widgets/photo-prints-widget";
+import PrintsWidget from "@/components/widgets/prints-widget";
 import { ServiceCategoryConsts } from "@/utils/constants/consts";
 import { notFound } from "next/navigation";
 
@@ -19,25 +19,25 @@ export default async function Page({
 
   switch (service.name) {
     case "Photo Prints": {
-      return <PhotoPrintsWidget />;
+      return <PrintsWidget type="photos" />;
     }
     case "Mug Prints": {
-      return <PhotoPrintsWidget />;
+      return <PrintsWidget type="mugs" />;
     }
     case "T-Shirt Prints": {
-      return <PhotoPrintsWidget />;
+      return <PrintsWidget type="t-shirts" />;
     }
     case "Cap Prints": {
-      return <PhotoPrintsWidget />;
+      return <PrintsWidget type="caps" />;
     }
     case "Jigsaw Prints": {
-      return <PhotoPrintsWidget />;
+      return <PrintsWidget type="jigsaw"/>;
     }
     case "Case Prints": {
-      return <PhotoPrintsWidget />;
+      return <PrintsWidget type="case" />;
     }
     default: {
-      return <PhotoPrintsWidget />;
+      return <PrintsWidget type="photos" />;
     }
   }
 }

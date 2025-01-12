@@ -1,12 +1,12 @@
 "use client";
 
-import { useImageContext } from "@/context/image-context";
+import { useImageContext } from "@/context/widget-context";
 import Image from "next/image";
 
 export default function ServiceSummary() {
   const { selectedImages } = useImageContext();
   return (
-    <div className="flex flex-col space-y-2.5">
+    <div className="flex flex-col space-y-2.5 pb-10">
       {selectedImages.map((image, index) => (
         <div>
           <div className="flex space-x-2.5 items-center">
@@ -20,7 +20,7 @@ export default function ServiceSummary() {
             </div>
             <div className="flex flex-col">
               <strong>{image.file.name}</strong>
-              <div>Size: {image.printSize}</div>
+              <div>Size: {image.printSize?.name ?? 'A4'}</div>
               <div>Frame: {image.isFramed ? "Yes" : "No"}</div>
             </div>
           </div>

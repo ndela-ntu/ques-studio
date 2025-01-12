@@ -7,13 +7,14 @@ interface PrintSize {
   id: string;
   name: string;
   dimensions: string;
+  price: number;
 }
 
 export interface ImageFile {
   file: File;
   preview: string;
-  printSize: string;
-  isFramed: boolean;
+  printSize?: PrintSize;
+  isFramed?: boolean;
 }
 
 interface ImageContextType {
@@ -27,9 +28,9 @@ interface ImageContextType {
 const ImageContext = createContext<ImageContextType | undefined>(undefined);
 
 export const PRINT_SIZES: PrintSize[] = [
-  { id: "a4", name: "A4", dimensions: "210 × 297 mm" },
-  { id: "a5", name: "A5", dimensions: "148 × 210 mm" },
-  { id: "a6", name: "A6", dimensions: "105 × 148 mm" },
+  { id: "a4", name: "A4", dimensions: "210 × 297 mm", price: 30 },
+  { id: "a5", name: "A5", dimensions: "148 × 210 mm", price: 25 },
+  { id: "a6", name: "A6", dimensions: "105 × 148 mm", price: 20 },
 ];
 
 export const ImageProvider = ({ children }: { children: ReactNode }) => {
@@ -51,7 +52,7 @@ export const ImageProvider = ({ children }: { children: ReactNode }) => {
   const updatePrintSize = (index: number, size: string) => {
     setSelectedImages((prev) => {
       const newImages = [...prev];
-      newImages[index] = { ...newImages[index], printSize: size };
+      newImages[index] = { ...newImages[index], printSize: PRINT_SIZES.find((printSize) => printSize.id === size) };
       return newImages;
     });
   };
