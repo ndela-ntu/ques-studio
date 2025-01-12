@@ -3,7 +3,7 @@
 import IServiceCategory from "@/models/service-category";
 import ServiceSummary from "./service-summary";
 import CheckoutProceed from "./checkout-proceed";
-import { useImageContext } from "@/context/widget-context";
+import { useImageContext } from "@/context/image-context";
 import Link from "next/link";
 import { MoveLeft } from "lucide-react";
 
@@ -33,7 +33,7 @@ export default function CompleteRequest({
 
   return (
     <div className="flex flex-col p-1 min-h-screen">
-      <span className="text-yaleBlue">Your {service.name}</span>
+      <span className="text-yaleBlue font-semibold">Summary</span>
       <ServiceSummary />
       <CheckoutProceed />
     </div>

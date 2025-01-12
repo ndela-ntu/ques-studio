@@ -13,9 +13,10 @@ import {
   ImageFile,
   PRINT_SIZES,
   useImageContext,
-} from "@/context/widget-context";
+} from "@/context/image-context";
 import Link from "next/link";
 import PhotoPrintsWidget from "./photo-prints-widget";
+import MugPrintsWidget from "./mug-prints-widget";
 
 interface Props {
   type: "photos" | "mugs" | "t-shirts" | "caps" | "jigsaw" | "case";
@@ -56,19 +57,32 @@ export default function PrintsWidget({ type }: Props) {
   };
 
   let widgetToDisplay: ReactNode;
+  let serviceId: number;
 
   switch (type) {
     case "photos":
-      widgetToDisplay = <PhotoPrintsWidget />;
+      {
+        widgetToDisplay = <PhotoPrintsWidget />;
+        serviceId = 1;
+      }
       break;
-
+    case "mugs":
+      {
+        widgetToDisplay = <MugPrintsWidget />;
+        serviceId = 2;
+      }
+      break;
     default:
-      widgetToDisplay = <PhotoPrintsWidget />;
+      {
+        widgetToDisplay = <PhotoPrintsWidget />;
+        serviceId = 1;
+      }
       break;
   }
 
   return (
     <div className="max-w-2xl mx-auto p-4 min-h-screen">
+      <p>Drag and drop or select your images for printing</p>
       <div
         className="border-2 border-dashed border-gray-300 rounded-lg p-8 mb-4 text-center cursor-pointer hover:border-blue-500 transition-colors"
         onClick={() => fileInputRef.current?.click()}
@@ -88,13 +102,10 @@ export default function PrintsWidget({ type }: Props) {
       {widgetToDisplay}
       {selectedImages.length > 0 && (
         <Link
-          href={`/complete-request/1`}
-          className="flex my-3 mx-1.5 max-w-min px-2.5 py-1 bg-yaleBlue text-ghostWhite rounded-3xl hover:bg-cinereous"
+          href={`/complete-request/${serviceId}`}
+          className="fixed bottom-0 left-0 w-full flex items-center justify-center px-2.5 py-1 bg-yaleBlue text-ghostWhite hover:bg-cinereous"
         >
           <span>Continue</span>
-          <span>
-            <MoveRight />
-          </span>
         </Link>
       )}
     </div>

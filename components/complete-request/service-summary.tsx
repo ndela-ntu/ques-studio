@@ -1,6 +1,6 @@
 "use client";
 
-import { useImageContext } from "@/context/widget-context";
+import { useImageContext } from "@/context/image-context";
 import Image from "next/image";
 
 export default function ServiceSummary() {
@@ -8,7 +8,7 @@ export default function ServiceSummary() {
   return (
     <div className="flex flex-col space-y-2.5 pb-10">
       {selectedImages.map((image, index) => (
-        <div>
+        <div key={index}>
           <div className="flex space-x-2.5 items-center">
             <span className="text-lg">{index + 1}.</span>
             <div className="aspect-square w-16 h-16">

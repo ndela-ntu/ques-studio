@@ -1,5 +1,4 @@
 import { CoverImage } from "@/components/cover-image";
-import ServiceCategories from "@/components/service-categories";
 import { ServiceCategoryConsts } from "@/utils/constants/consts";
 import Image from "next/image";
 import Link from "next/link";
@@ -7,7 +6,6 @@ import Link from "next/link";
 export default function Home() {
   return (
     <div className=" min-h-screen flex flex-col">
-      <ServiceCategories />
       <CoverImage src="/newCoverImage.jpeg" alt="cover image" />
       <div className="w-full text-center flex flex-col items-center justify-center p-1 md:p-2 lg:p-3">
         <h1 className="text-2xl md:text-3xl font-bold text-cinereous">

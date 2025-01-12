@@ -1,5 +1,6 @@
 import {
   ImageFile,
+  MugColor,
   PRINT_SIZES,
   useImageContext,
 } from "@/context/image-context";
@@ -14,10 +15,15 @@ import { Checkbox } from "../ui/checkbox";
 import { Trash } from "lucide-react";
 import { useEffect } from "react";
 
-export default function PhotoPrintsWidget() {
-  const { selectedImages, addImages, removeImage, updateIsFramed, updatePrintSize } =
-    useImageContext();
-    
+export default function MugPrintsWidget() {
+  const {
+    selectedImages,
+    addImages,
+    removeImage,
+    updateMugColor,
+    updateColorChanges,
+  } = useImageContext();
+
   return (
     <div>
       {selectedImages.length > 0 && (
@@ -45,29 +51,33 @@ export default function PhotoPrintsWidget() {
                   </p>
                   <div className="mt-2 w-48">
                     <Select
-                      defaultValue={image.printSize?.id ?? "a4"}
-                      onValueChange={(value) => updatePrintSize(index, value)}
+                      defaultValue={MugColor.WHITE}
+                      onValueChange={(value) => {
+                        updateMugColor(index, value as MugColor);
+                      }}
                     >
                       <SelectTrigger>
                         <SelectValue placeholder="Select print size" />
                       </SelectTrigger>
                       <SelectContent>
-                        {PRINT_SIZES.map((size) => (
-                          <SelectItem key={size.id} value={size.id}>
-                            {size.name} ({size.dimensions})
-                          </SelectItem>
-                        ))}
+                        {Object.values(MugColor)
+                          .filter((mugColor) => typeof mugColor === "string")
+                          .map((mugColor, index) => (
+                            <SelectItem key={index} value={mugColor}>
+                              {mugColor}
+                            </SelectItem>
+                          ))}
                       </SelectContent>
                     </Select>
                   </div>
-                  <div className="mt-2 w-32 flex space-x-2.5 items-center">
-                    <span className="">Add Frame?</span>
+                  <div className="mt-2 w-48 flex space-x-2.5 items-center">
+                    <span className="">Mug changes color?</span>
                     <Checkbox
                       className="text-cinereous"
-                      checked={image.isFramed}
+                      checked={image.changesColor}
                       onCheckedChange={(checked) => {
                         if (typeof checked === "boolean") {
-                          updateIsFramed(index, checked);
+                          updateColorChanges(index, checked);
                         }
                       }}
                     />
