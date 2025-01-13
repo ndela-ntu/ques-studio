@@ -1,6 +1,6 @@
 "use client";
 
-import { useImageContext } from "@/context/image-context";
+import { TShirtPrintSize, useImageContext } from "@/context/image-context";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
@@ -26,17 +26,48 @@ export default function CheckoutProceed({ serviceId }: { serviceId: number }) {
           }, 0);
         }
         break;
-      case 2: {
-        total = selectedImages.reduce((a, v) => {
-          let price = 30;
-          if (v.changesColor) {
-            price = 50;
-          }
+      case 2:
+        {
+          total = selectedImages.reduce((a, v) => {
+            let price = 130;
+            console.log(v.file.name, v.changesColor);
+            if (v.changesColor) {
+              price = 150;
+            }
 
-          return a + price;
-        }, 0);
-      }
+            return a + price;
+          }, 0);
+        }
+        break;
+      case 3:
+        {
+          total = selectedImages.reduce((a, v) => {
+            let price = 200;
+            switch (v.tPrintSize) {
+              case TShirtPrintSize.POCKET:
+                price = 200;
+                break;
+              case TShirtPrintSize.SMALL:
+                price = 210;
+                break;
+              case TShirtPrintSize.MEDIUM:
+                price = 220;
+                break;
+              case TShirtPrintSize.LARGE:
+                price = 230;
+                break;
+              case TShirtPrintSize.A4:
+                price = 240;
+                break;
+              default:
+                price = 200;
+                break;
+            }
 
+            return a + price;
+          }, 0);
+        }
+        break;
       default:
         {
           total = selectedImages.reduce((a, v) => {

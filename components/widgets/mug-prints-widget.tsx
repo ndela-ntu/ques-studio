@@ -18,7 +18,6 @@ import { useEffect } from "react";
 export default function MugPrintsWidget() {
   const {
     selectedImages,
-    addImages,
     removeImage,
     updateMugColor,
     updateColorChanges,

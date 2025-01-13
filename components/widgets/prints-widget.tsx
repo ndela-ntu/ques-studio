@@ -17,6 +17,7 @@ import {
 import Link from "next/link";
 import PhotoPrintsWidget from "./photo-prints-widget";
 import MugPrintsWidget from "./mug-prints-widget";
+import TShirtPrintsWidget from "./tshirt-prints-widget";
 
 interface Props {
   type: "photos" | "mugs" | "t-shirts" | "caps" | "jigsaw" | "case";
@@ -70,6 +71,12 @@ export default function PrintsWidget({ type }: Props) {
       {
         widgetToDisplay = <MugPrintsWidget />;
         serviceId = 2;
+      }
+      break;
+    case "t-shirts":
+      {
+        widgetToDisplay = <TShirtPrintsWidget />;
+        serviceId = 3;
       }
       break;
     default:

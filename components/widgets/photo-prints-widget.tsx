@@ -15,7 +15,7 @@ import { Trash } from "lucide-react";
 import { useEffect } from "react";
 
 export default function PhotoPrintsWidget() {
-  const { selectedImages, addImages, removeImage, updateIsFramed, updatePrintSize } =
+  const { selectedImages, removeImage, updateIsFramed, updatePrintSize } =
     useImageContext();
     
   return (

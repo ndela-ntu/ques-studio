@@ -23,6 +23,35 @@ export enum MugColor {
   RED = 'Red',
 }
 
+export enum TShirtColor {
+  WHITE = 'White',
+  BLACK = 'Black',
+  RED = 'Red',
+  BLUE = 'Blue',
+  GREEN = 'Green',
+  YELLOW = 'Yellow',
+  ORANGE = 'Orange',
+  PINK = 'Pink',
+  PURPLE = 'Purple',
+}
+
+export enum TShirtSize {
+  XS = 'Extra Small',
+  S = 'Small',
+  M = 'Medium',
+  L = 'Large',
+  XL = 'Extra Large',
+  XXL = 'Double Extra Large',
+}
+
+export enum TShirtPrintSize {
+  POCKET = 'Pocket Size',        
+  SMALL = 'Small',               
+  MEDIUM = 'Medium',            
+  LARGE = 'Large',          
+  A4 = 'A4 Size',
+}
+
 export interface ImageFile {
   file: File;
   preview: string;
@@ -30,6 +59,9 @@ export interface ImageFile {
   isFramed?: boolean;
   mugColor?: MugColor;
   changesColor?: boolean;
+  tColor?: TShirtColor;
+  tSize?: TShirtSize;
+  tPrintSize?: TShirtPrintSize;
 }
 
 interface ImageContextType {
@@ -40,6 +72,9 @@ interface ImageContextType {
   updateIsFramed: (index: number, isFramed: boolean) => void;
   updateMugColor: (index: number, color: MugColor) => void;
   updateColorChanges: (index: number, changes: boolean) => void;
+  updateTColor: (index: number, color: TShirtColor) => void;
+  updateTSize: (index: number, size: TShirtSize) => void;
+  updateTPrintSize: (index: number, printSize: TShirtPrintSize) => void;
 }
 
 const ImageContext = createContext<ImageContextType | undefined>(undefined);
@@ -93,6 +128,29 @@ export const ImageProvider = ({ children }: { children: ReactNode }) => {
     })
   };
 
+  const updateTColor = (index: number, color: TShirtColor) => {
+    setSelectedImages((prev) => {
+      const newImages = [...prev];
+      newImages[index] = {...newImages[index], tColor: color};
+      return newImages;
+    })
+  }
+  const updateTSize = (index: number, size: TShirtSize) => {
+    setSelectedImages((prev) => {
+      const newImages = [...prev];
+      newImages[index] = {...newImages[index], tSize: size};
+      return newImages;
+    })
+  };
+
+  const updateTPrintSize = (index: number, printSize: TShirtPrintSize) => {
+    setSelectedImages((prev) => {
+      const newImages = [...prev];
+      newImages[index] = {...newImages[index], tPrintSize: printSize};
+      return newImages;
+    })
+  };
+
   return (
     <ImageContext.Provider
       value={{
@@ -103,6 +161,9 @@ export const ImageProvider = ({ children }: { children: ReactNode }) => {
         updateIsFramed,
         updateColorChanges,
         updateMugColor,
+        updateTColor,
+        updateTSize,
+        updateTPrintSize,
       }}
     >
       {children}

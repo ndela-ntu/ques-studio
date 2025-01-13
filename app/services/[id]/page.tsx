@@ -25,9 +25,9 @@ export default async function Page({
         <h1 className="text-2xl text-cinereous font-bold underline">{service.name}</h1>
         <Link
           href={`/service-request/${service.id}`}
-          className="flex my-3 mx-1.5 px-2.5 py-1 bg-yaleBlue text-ghostWhite rounded-3xl hover:bg-cinereous"
+          className="flex space-x-1.5 my-3 mx-1.5 px-2.5 py-1 bg-yaleBlue text-ghostWhite rounded-3xl hover:bg-cinereous"
         >
-          <span>Continue</span>
+          <span>Shop</span>
           <span>
             <MoveRight />
           </span>
