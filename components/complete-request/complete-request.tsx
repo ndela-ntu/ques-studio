@@ -34,8 +34,8 @@ export default function CompleteRequest({
   return (
     <div className="flex flex-col p-1 min-h-screen">
       <span className="text-yaleBlue font-semibold">Summary</span>
-      <ServiceSummary />
-      <CheckoutProceed />
+      <ServiceSummary serviceId={service.id} />
+      <CheckoutProceed serviceId={service.id} />
     </div>
   );
 }
