@@ -1,5 +1,7 @@
 import {
+  CapColor,
   ImageFile,
+  JigsawSize,
   PRINT_SIZES,
   useImageContext,
 } from "@/context/image-context";
@@ -10,14 +12,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
-import { Checkbox } from "../ui/checkbox";
 import { Trash } from "lucide-react";
-import { useEffect } from "react";
 
-export default function PhotoPrintsWidget() {
-  const { selectedImages, removeImage, updateIsFramed, updatePrintSize } =
-    useImageContext();
-    
+export default function JigsawPrintsWidget() {
+  const { selectedImages, removeImage, updateJigsawSize } = useImageContext();
+
   return (
     <div>
       {selectedImages.length > 0 && (
@@ -44,34 +43,27 @@ export default function PhotoPrintsWidget() {
                     {(image.file.size / 1024).toFixed(1)} KB
                   </p>
                   <div className="mt-2 w-48">
-                  <label className="text-sm">Print Size</label>
+                    <label className="text-sm">Jigsaw Size</label>
+
                     <Select
-                      defaultValue={image.printSize?.id ?? "a4"}
-                      onValueChange={(value) => updatePrintSize(index, value)}
+                      defaultValue={JigsawSize.MEDIUM}
+                      onValueChange={(value) =>
+                        updateJigsawSize(index, value as JigsawSize)
+                      }
                     >
                       <SelectTrigger>
                         <SelectValue placeholder="Select print size" />
                       </SelectTrigger>
                       <SelectContent>
-                        {PRINT_SIZES.map((size) => (
-                          <SelectItem key={size.id} value={size.id}>
-                            {size.name} ({size.dimensions})
-                          </SelectItem>
-                        ))}
+                        {Object.values(JigsawSize)
+                          .filter((size) => typeof size === "string")
+                          .map((size, index) => (
+                            <SelectItem key={index} value={size}>
+                              {size}
+                            </SelectItem>
+                          ))}
                       </SelectContent>
                     </Select>
-                  </div>
-                  <div className="mt-2 w-32 flex space-x-2.5 items-center">
-                    <span className="">Add Frame?</span>
-                    <Checkbox
-                      className="text-cinereous"
-                      checked={image.isFramed}
-                      onCheckedChange={(checked) => {
-                        if (typeof checked === "boolean") {
-                          updateIsFramed(index, checked);
-                        }
-                      }}
-                    />
                   </div>
                 </div>
                 <button

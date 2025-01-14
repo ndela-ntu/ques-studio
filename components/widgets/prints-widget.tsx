@@ -18,6 +18,8 @@ import Link from "next/link";
 import PhotoPrintsWidget from "./photo-prints-widget";
 import MugPrintsWidget from "./mug-prints-widget";
 import TShirtPrintsWidget from "./tshirt-prints-widget";
+import CapPrintsWidget from "./cap-prints-widget";
+import JigsawPrintsWidget from "./jigsaw-prints-widget";
 
 interface Props {
   type: "photos" | "mugs" | "t-shirts" | "caps" | "jigsaw" | "case";
@@ -79,6 +81,16 @@ export default function PrintsWidget({ type }: Props) {
         serviceId = 3;
       }
       break;
+    case "caps":
+      {
+        widgetToDisplay = <CapPrintsWidget />;
+        serviceId = 4;
+      }
+      break;
+      case 'jigsaw': {
+        widgetToDisplay = <JigsawPrintsWidget />
+        serviceId = 5;
+      }
     default:
       {
         widgetToDisplay = <PhotoPrintsWidget />;

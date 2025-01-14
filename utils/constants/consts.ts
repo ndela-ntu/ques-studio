@@ -36,11 +36,11 @@ export const ServiceCategoryConsts: IServiceCategory[] = [
       "At Ques Studio, we turn your unique designs into personalized jigsaw puzzles, offering an engaging and creative way to experience your art. Whether it's a cherished family photo, a favorite painting, or a custom graphic, we bring your vision to life in puzzle form. Our high-quality, precision-cut puzzles offer a satisfying challenge and a beautiful keepsake, making them perfect for gifts, home decor, or personal enjoyment. Simply share your design, and we'll craft a custom jigsaw puzzle that’s as unique as you are.",
     categoryImageUrl: "/jigsawPrints.webp",
   },
-  {
-    id: 6,
-    name: "Case Prints",
-    description:
-      "At Ques Studio, we specialize in transforming your creative visions into beautifully crafted, custom phone case covers. Whether you're looking for a sleek, minimalist design or a bold, vibrant statement piece, our team of expert designers and artisans work closely with you to bring your ideas to life. Using high-quality materials and cutting-edge printing technology, we ensure that every case is not only visually stunning but also durable and protective. With Ques, your phone becomes a canvas for self-expression—personalized, unique, and designed just for you.",
-    categoryImageUrl: "/casePrints.jpeg",
-  },
+//   {
+//     id: 6,
+//     name: "Case Prints",
+//     description:
+//       "At Ques Studio, we specialize in transforming your creative visions into beautifully crafted, custom phone case covers. Whether you're looking for a sleek, minimalist design or a bold, vibrant statement piece, our team of expert designers and artisans work closely with you to bring your ideas to life. Using high-quality materials and cutting-edge printing technology, we ensure that every case is not only visually stunning but also durable and protective. With Ques, your phone becomes a canvas for self-expression—personalized, unique, and designed just for you.",
+//     categoryImageUrl: "/casePrints.jpeg",
+//   },
 ];

@@ -68,6 +68,22 @@ export default function CheckoutProceed({ serviceId }: { serviceId: number }) {
           }, 0);
         }
         break;
+      case 4:
+        {
+          total = selectedImages.reduce((a, v) => {
+            let price = 135;
+            return a + price;
+          }, 0);
+        }
+        break;
+      case 5:
+        {
+          total = selectedImages.reduce((a, v) => {
+            let price = 100;
+            return a + price;
+          }, 0);
+        }
+        break;
       default:
         {
           total = selectedImages.reduce((a, v) => {

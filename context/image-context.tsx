@@ -35,6 +35,18 @@ export enum TShirtColor {
   PURPLE = 'Purple',
 }
 
+export enum CapColor {
+  WHITE = 'White',
+  BLACK = 'Black',
+  RED = 'Red',
+  BLUE = 'Blue',
+  GREEN = 'Green',
+  YELLOW = 'Yellow',
+  ORANGE = 'Orange',
+  PINK = 'Pink',
+  PURPLE = 'Purple',
+}
+
 export enum TShirtSize {
   XS = 'Extra Small',
   S = 'Small',
@@ -52,6 +64,12 @@ export enum TShirtPrintSize {
   A4 = 'A4 Size',
 }
 
+export enum JigsawSize {
+  SMALL = "Small",
+  MEDIUM = "Medium",
+  LARGE = "Large",
+}
+
 export interface ImageFile {
   file: File;
   preview: string;
@@ -62,6 +80,8 @@ export interface ImageFile {
   tColor?: TShirtColor;
   tSize?: TShirtSize;
   tPrintSize?: TShirtPrintSize;
+  capColor?: CapColor;
+  jigsawSize?: JigsawSize;
 }
 
 interface ImageContextType {
@@ -75,7 +95,9 @@ interface ImageContextType {
   updateTColor: (index: number, color: TShirtColor) => void;
   updateTSize: (index: number, size: TShirtSize) => void;
   updateTPrintSize: (index: number, printSize: TShirtPrintSize) => void;
-}
+  updateCapColor: (index: number, color: CapColor) => void;
+  updateJigsawSize: (index: number, size: JigsawSize) => void;
+ }
 
 const ImageContext = createContext<ImageContextType | undefined>(undefined);
 
@@ -151,6 +173,22 @@ export const ImageProvider = ({ children }: { children: ReactNode }) => {
     })
   };
 
+  const updateCapColor = (index: number, color: CapColor) => {
+    setSelectedImages((prev) => {
+      const newImages = [...prev];
+      newImages[index] = {...newImages[index], capColor: color};
+      return newImages;
+    })
+  };
+
+   const updateJigsawSize= (index: number, size: JigsawSize) => {
+    setSelectedImages((prev) => {
+      const newImages = [...prev];
+      newImages[index] = {...newImages[index], jigsawSize: size};
+      return newImages;
+    })
+  };
+
   return (
     <ImageContext.Provider
       value={{
@@ -164,6 +202,8 @@ export const ImageProvider = ({ children }: { children: ReactNode }) => {
         updateTColor,
         updateTSize,
         updateTPrintSize,
+        updateCapColor,
+        updateJigsawSize
       }}
     >
       {children}

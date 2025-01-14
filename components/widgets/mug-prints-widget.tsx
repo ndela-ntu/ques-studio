@@ -49,6 +49,7 @@ export default function MugPrintsWidget() {
                     {(image.file.size / 1024).toFixed(1)} KB
                   </p>
                   <div className="mt-2 w-48">
+                  <label className="text-sm">Mug Color</label>
                     <Select
                       defaultValue={MugColor.WHITE}
                       onValueChange={(value) => {
