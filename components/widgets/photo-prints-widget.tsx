@@ -46,8 +46,10 @@ export default function PhotoPrintsWidget() {
                   <div className="mt-2 w-48">
                   <label className="text-sm">Print Size</label>
                     <Select
-                      defaultValue={image.printSize?.id ?? "a4"}
-                      onValueChange={(value) => updatePrintSize(index, value)}
+                      defaultValue="a4"
+                      onValueChange={(value) => {
+                        updatePrintSize(index, value)
+                      }}
                     >
                       <SelectTrigger>
                         <SelectValue placeholder="Select print size" />

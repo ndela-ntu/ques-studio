@@ -16,9 +16,10 @@ export default function CheckoutProceed({ serviceId }: { serviceId: number }) {
         {
           total = selectedImages.reduce((a, v) => {
             let price = v.printSize?.price ?? 30;
+            let printSizeId = v.printSize?.id ?? "a4";
             if (v.isFramed) {
-              if (v.printSize?.id === "a4") price = 150;
-              else if (v.printSize?.id === "a5") price = 100;
+              if (printSizeId === "a4") price = 150;
+              else if (printSizeId === "a5") price = 100;
               else price = 50;
             }
 
