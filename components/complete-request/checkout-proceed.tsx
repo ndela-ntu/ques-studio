@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 
 export default function CheckoutProceed({ serviceId }: { serviceId: number }) {
-  const { selectedImages } = useImageContext();
+  const { selectedImages, setContextTotal } = useImageContext();
   const [total, setTotal] = useState<number>(0);
 
   useEffect(() => {
@@ -102,12 +102,13 @@ export default function CheckoutProceed({ serviceId }: { serviceId: number }) {
     }
 
     setTotal(total);
+    setContextTotal(total);
   }, [total]);
 
   return (
     <Link
       className="flex flex-col text-white bg-cornflowerBlue fixed bottom-0 left-0 w-full py-2.5 px-1.5 font-semibold"
-      href="/checkout"
+      href={`/checkout/${serviceId}`}
     >
       <span className="flex justify-between">
         <label>Total:</label>

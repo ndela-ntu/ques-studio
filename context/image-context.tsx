@@ -3,7 +3,7 @@
 // ImageContext.tsx
 import React, { createContext, useContext, useState, ReactNode } from "react";
 
-interface PrintSize {
+export interface PrintSize {
   id: string;
   name: string;
   dimensions: string;
@@ -17,51 +17,51 @@ export const PRINT_SIZES: PrintSize[] = [
 ];
 
 export enum MugColor {
-  WHITE = 'White',
-  BLACK = 'Black',
-  PURPLE = 'Purple',
-  RED = 'Red',
+  WHITE = "White",
+  BLACK = "Black",
+  PURPLE = "Purple",
+  RED = "Red",
 }
 
 export enum TShirtColor {
-  WHITE = 'White',
-  BLACK = 'Black',
-  RED = 'Red',
-  BLUE = 'Blue',
-  GREEN = 'Green',
-  YELLOW = 'Yellow',
-  ORANGE = 'Orange',
-  PINK = 'Pink',
-  PURPLE = 'Purple',
+  WHITE = "White",
+  BLACK = "Black",
+  RED = "Red",
+  BLUE = "Blue",
+  GREEN = "Green",
+  YELLOW = "Yellow",
+  ORANGE = "Orange",
+  PINK = "Pink",
+  PURPLE = "Purple",
 }
 
 export enum CapColor {
-  WHITE = 'White',
-  BLACK = 'Black',
-  RED = 'Red',
-  BLUE = 'Blue',
-  GREEN = 'Green',
-  YELLOW = 'Yellow',
-  ORANGE = 'Orange',
-  PINK = 'Pink',
-  PURPLE = 'Purple',
+  WHITE = "White",
+  BLACK = "Black",
+  RED = "Red",
+  BLUE = "Blue",
+  GREEN = "Green",
+  YELLOW = "Yellow",
+  ORANGE = "Orange",
+  PINK = "Pink",
+  PURPLE = "Purple",
 }
 
 export enum TShirtSize {
-  XS = 'Extra Small',
-  S = 'Small',
-  M = 'Medium',
-  L = 'Large',
-  XL = 'Extra Large',
-  XXL = 'Double Extra Large',
+  XS = "Extra Small",
+  S = "Small",
+  M = "Medium",
+  L = "Large",
+  XL = "Extra Large",
+  XXL = "Double Extra Large",
 }
 
 export enum TShirtPrintSize {
-  POCKET = 'Pocket Size',        
-  SMALL = 'Small',               
-  MEDIUM = 'Medium',            
-  LARGE = 'Large',          
-  A4 = 'A4 Size',
+  POCKET = "Pocket Size",
+  SMALL = "Small",
+  MEDIUM = "Medium",
+  LARGE = "Large",
+  A4 = "A4 Size",
 }
 
 export enum JigsawSize {
@@ -86,6 +86,7 @@ export interface ImageFile {
 
 interface ImageContextType {
   selectedImages: ImageFile[];
+  contextTotal: number;
   addImages: (newImages: ImageFile[]) => void;
   removeImage: (index: number) => void;
   updatePrintSize: (index: number, size: string) => void;
@@ -97,13 +98,14 @@ interface ImageContextType {
   updateTPrintSize: (index: number, printSize: TShirtPrintSize) => void;
   updateCapColor: (index: number, color: CapColor) => void;
   updateJigsawSize: (index: number, size: JigsawSize) => void;
- }
+  setContextTotal: (total: number) => void;
+}
 
 const ImageContext = createContext<ImageContextType | undefined>(undefined);
 
-
 export const ImageProvider = ({ children }: { children: ReactNode }) => {
   const [selectedImages, setSelectedImages] = useState<ImageFile[]>([]);
+  const [contextTotal, setTotal] = useState<number>(0);
 
   const addImages = (newImages: ImageFile[]) => {
     setSelectedImages((prev) => [...prev, ...newImages]);
@@ -121,7 +123,10 @@ export const ImageProvider = ({ children }: { children: ReactNode }) => {
   const updatePrintSize = (index: number, size: string) => {
     setSelectedImages((prev) => {
       const newImages = [...prev];
-      newImages[index] = { ...newImages[index], printSize: PRINT_SIZES.find((printSize) => printSize.id === size) };
+      newImages[index] = {
+        ...newImages[index],
+        printSize: PRINT_SIZES.find((printSize) => printSize.id === size),
+      };
       return newImages;
     });
   };
@@ -139,7 +144,7 @@ export const ImageProvider = ({ children }: { children: ReactNode }) => {
       const newImages = [...prev];
       newImages[index] = { ...newImages[index], mugColor: color };
       return newImages;
-    })
+    });
   };
 
   const updateColorChanges = (index: number, changes: boolean) => {
@@ -147,52 +152,57 @@ export const ImageProvider = ({ children }: { children: ReactNode }) => {
       const newImages = [...prev];
       newImages[index] = { ...newImages[index], changesColor: changes };
       return newImages;
-    })
+    });
   };
 
   const updateTColor = (index: number, color: TShirtColor) => {
     setSelectedImages((prev) => {
       const newImages = [...prev];
-      newImages[index] = {...newImages[index], tColor: color};
+      newImages[index] = { ...newImages[index], tColor: color };
       return newImages;
-    })
-  }
+    });
+  };
   const updateTSize = (index: number, size: TShirtSize) => {
     setSelectedImages((prev) => {
       const newImages = [...prev];
-      newImages[index] = {...newImages[index], tSize: size};
+      newImages[index] = { ...newImages[index], tSize: size };
       return newImages;
-    })
+    });
   };
 
   const updateTPrintSize = (index: number, printSize: TShirtPrintSize) => {
     setSelectedImages((prev) => {
       const newImages = [...prev];
-      newImages[index] = {...newImages[index], tPrintSize: printSize};
+      newImages[index] = { ...newImages[index], tPrintSize: printSize };
       return newImages;
-    })
+    });
   };
 
   const updateCapColor = (index: number, color: CapColor) => {
     setSelectedImages((prev) => {
       const newImages = [...prev];
-      newImages[index] = {...newImages[index], capColor: color};
+      newImages[index] = { ...newImages[index], capColor: color };
       return newImages;
-    })
+    });
   };
 
-   const updateJigsawSize= (index: number, size: JigsawSize) => {
+  const updateJigsawSize = (index: number, size: JigsawSize) => {
     setSelectedImages((prev) => {
       const newImages = [...prev];
-      newImages[index] = {...newImages[index], jigsawSize: size};
+      newImages[index] = { ...newImages[index], jigsawSize: size };
       return newImages;
-    })
+    });
+  };
+
+  const setContextTotal = (total: number) => {
+    setTotal(total);
   };
 
   return (
     <ImageContext.Provider
       value={{
         selectedImages,
+        contextTotal,
         addImages,
         removeImage,
         updatePrintSize,
@@ -203,7 +213,8 @@ export const ImageProvider = ({ children }: { children: ReactNode }) => {
         updateTSize,
         updateTPrintSize,
         updateCapColor,
-        updateJigsawSize
+        updateJigsawSize,
+        setContextTotal,
       }}
     >
       {children}

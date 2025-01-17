@@ -1,11 +1,12 @@
 import { CoverImage } from "@/components/cover-image";
 import { ServiceCategoryConsts } from "@/utils/constants/consts";
+import { ShoppingBag } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
 export default function Home() {
   return (
-    <div className=" min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col">
       <CoverImage src="/newCoverImage.jpeg" alt="cover image" />
       <div className="w-full text-center flex flex-col items-center justify-center p-1 md:p-2 lg:p-3">
         <h1 className="text-2xl md:text-3xl font-bold text-cinereous">
@@ -23,13 +24,19 @@ export default function Home() {
           Browser our services
         </h1>
       </div>
-      <div className=" grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2.5 px-8">
+      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-2.5 px-8 justify-items-center">
         {ServiceCategoryConsts.map((service) => (
-          <Link key={service.id} href={`/services/${service.id}`}>
-            <div className="flex flex-col items-center justify-center bg-cornflowerBlue w-full">
-              <h2 className="text-ghostWhite text-lg font-semibold">
-                {service.name}
-              </h2>
+          <div
+            key={service.id}
+            className="p-2.5 flex flex-col items-center justify-center w-full"
+          >
+            <h2 className="w-full flex items-center justify-center bg-cornflowerBlue text-ghostWhite text-lg font-semibold">
+              {service.name}
+            </h2>
+            <Link
+              className="w-full h-auto"
+              href={`/services/${service.id}`}
+            >
               <div className="aspect-square relative w-full h-full border-8 border-ghostWhite">
                 <Image
                   src={service.categoryImageUrl}
@@ -39,8 +46,15 @@ export default function Home() {
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 />
               </div>
-            </div>
-          </Link>
+            </Link>
+            <Link
+              className="rounded-2xl flex space-x-2 bg-cinereous mt-1.5 px-2.5 py-1 text-ghostWhite"
+              href={`service-request/${service.id}`}
+            >
+              <span>Shop</span>
+              <span><ShoppingBag /></span>
+            </Link>
+          </div>
         ))}
       </div>
     </div>
