@@ -1,6 +1,10 @@
 "use client";
 
-import { TShirtPrintSize, useImageContext } from "@/context/image-context";
+import {
+  PhotoPrintSize,
+  TShirtPrintSize,
+  useImageContext,
+} from "@/context/image-context";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
@@ -15,14 +19,41 @@ export default function CheckoutProceed({ serviceId }: { serviceId: number }) {
       case 1:
         {
           total = selectedImages.reduce((a, v) => {
-            let price = v.printSize?.price ?? 30;
-            let printSizeId = v.printSize?.id ?? "a4";
-            if (v.isFramed) {
-              if (printSizeId === "a4") price = 150;
-              else if (printSizeId === "a5") price = 100;
-              else price = 50;
-            }
+            let price = 0;
+            switch (v.photoPrintSize) {
+              case PhotoPrintSize.A4:
+                {
+                  price = 30;
+                  if (v.isFramed) {
+                    price = 150;
+                  }
+                }
+                break;
+              case PhotoPrintSize.A5:
+                {
+                  price = 25;
+                  if (v.isFramed) {
+                    price = 100;
+                  }
+                }
+                break;
+              case PhotoPrintSize.A6:
+                {
+                  price = 20;
+                  if (v.isFramed) {
+                    price = 50;
+                  }
+                }
+                break;
+              default: {
+                price = 30;
+                if (v.isFramed) {
+                  price = 150;
+                }
 
+                break;
+              }
+            }
             return a + price;
           }, 0);
         }
@@ -88,13 +119,7 @@ export default function CheckoutProceed({ serviceId }: { serviceId: number }) {
       default:
         {
           total = selectedImages.reduce((a, v) => {
-            let price = v.printSize?.price ?? 30;
-            if (v.isFramed) {
-              if (v.printSize?.id === "a4") price = 150;
-              else if (v.printSize?.id === "a5") price = 100;
-              else price = 50;
-            }
-
+            let price = 100;
             return a + price;
           }, 0);
         }

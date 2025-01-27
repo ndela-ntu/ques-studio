@@ -3,18 +3,11 @@
 // ImageContext.tsx
 import React, { createContext, useContext, useState, ReactNode } from "react";
 
-export interface PrintSize {
-  id: string;
-  name: string;
-  dimensions: string;
-  price: number;
+export enum PhotoPrintSize {
+  A4 = "A4",
+  A5 = "A5",
+  A6 = "A6",
 }
-
-export const PRINT_SIZES: PrintSize[] = [
-  { id: "a4", name: "A4", dimensions: "210 × 297 mm", price: 30 },
-  { id: "a5", name: "A5", dimensions: "148 × 210 mm", price: 25 },
-  { id: "a6", name: "A6", dimensions: "105 × 148 mm", price: 20 },
-];
 
 export enum MugColor {
   WHITE = "White",
@@ -73,7 +66,7 @@ export enum JigsawSize {
 export interface ImageFile {
   file: File;
   preview: string;
-  printSize?: PrintSize;
+  photoPrintSize?: PhotoPrintSize;
   isFramed?: boolean;
   mugColor?: MugColor;
   changesColor?: boolean;
@@ -89,13 +82,13 @@ interface ImageContextType {
   contextTotal: number;
   addImages: (newImages: ImageFile[]) => void;
   removeImage: (index: number) => void;
-  updatePrintSize: (index: number, size: string) => void;
+  updatePrintSize: (index: number, size: PhotoPrintSize) => void;
   updateIsFramed: (index: number, isFramed: boolean) => void;
   updateMugColor: (index: number, color: MugColor) => void;
   updateColorChanges: (index: number, changes: boolean) => void;
   updateTColor: (index: number, color: TShirtColor) => void;
   updateTSize: (index: number, size: TShirtSize) => void;
-  updateTPrintSize: (index: number, printSize: TShirtPrintSize) => void;
+  updateTPrintSize: (index: number, photoPrintSize: TShirtPrintSize) => void;
   updateCapColor: (index: number, color: CapColor) => void;
   updateJigsawSize: (index: number, size: JigsawSize) => void;
   setContextTotal: (total: number) => void;
@@ -109,7 +102,6 @@ export const ImageProvider = ({ children }: { children: ReactNode }) => {
   const [contextTotal, setTotal] = useState<number>(0);
 
   const addImages = (newImages: ImageFile[]) => {
-    
     setSelectedImages((prev) => [...prev, ...newImages]);
   };
 
@@ -122,12 +114,12 @@ export const ImageProvider = ({ children }: { children: ReactNode }) => {
     });
   };
 
-  const updatePrintSize = (index: number, size: string) => {
+  const updatePrintSize = (index: number, size: PhotoPrintSize) => {
     setSelectedImages((prev) => {
       const newImages = [...prev];
       newImages[index] = {
         ...newImages[index],
-        printSize: PRINT_SIZES.find((printSize) => printSize.id === size),
+        photoPrintSize: size,
       };
       return newImages;
     });
@@ -173,10 +165,10 @@ export const ImageProvider = ({ children }: { children: ReactNode }) => {
     });
   };
 
-  const updateTPrintSize = (index: number, printSize: TShirtPrintSize) => {
+  const updateTPrintSize = (index: number, photoPrintSize: TShirtPrintSize) => {
     setSelectedImages((prev) => {
       const newImages = [...prev];
-      newImages[index] = { ...newImages[index], tPrintSize: printSize };
+      newImages[index] = { ...newImages[index], tPrintSize: photoPrintSize };
       return newImages;
     });
   };

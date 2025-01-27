@@ -5,14 +5,13 @@ import {
   ImageFile,
   JigsawSize,
   MugColor,
+  PhotoPrintSize,
   TShirtColor,
   TShirtPrintSize,
   TShirtSize,
   useImageContext,
 } from "@/context/image-context";
-import Image from "next/image";
 import { ReactNode } from "react";
-import JigsawPrintsWidget from "../widgets/jigsaw-prints-widget";
 
 export default function ServiceSummary({ serviceId }: { serviceId: number }) {
   const { selectedImages } = useImageContext();
@@ -74,7 +73,7 @@ function PhotoPrintsSummary({
             </div>
             <div className="flex flex-col">
               <strong>{image.file.name}</strong>
-              <div>Size: {image.printSize?.name ?? "A4"}</div>
+              <div>Size: {image.photoPrintSize ?? PhotoPrintSize.A4}</div>
               <div>Frame: {image.isFramed ? "Yes" : "No"}</div>
             </div>
           </div>

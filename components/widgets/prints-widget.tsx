@@ -14,7 +14,7 @@ import {
   ImageFile,
   JigsawSize,
   MugColor,
-  PRINT_SIZES,
+  PhotoPrintSize,
   TShirtColor,
   TShirtPrintSize,
   TShirtSize,
@@ -45,7 +45,7 @@ export default function PrintsWidget({ type }: Props) {
         {
           resProperties = {
             isFramed: false,
-            printSize: PRINT_SIZES[0],
+            photoPrintSize: PhotoPrintSize.A4,
           };
         }
         break;
@@ -84,7 +84,7 @@ export default function PrintsWidget({ type }: Props) {
         {
           resProperties = {
             isFramed: false,
-            printSize: PRINT_SIZES[0],
+            photoPrintSize: PhotoPrintSize.A4,
           };
         }
         break;

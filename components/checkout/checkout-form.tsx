@@ -49,12 +49,11 @@ export default function CheckoutForm({ id }: { id: number }) {
         JSON.stringify(selectedImagesFormData)
       );
       formData.append("total", contextTotal.toString());
-      
+
       console.log(selectedImagesFormData);
-      console.log(selectedImages);
-      // startTransition(() => {
-      //   dispatch(formData);
-      // });
+      startTransition(() => {
+        dispatch(formData);
+      });
     } catch (error) {
       console.error("Error processing form:", error);
     }

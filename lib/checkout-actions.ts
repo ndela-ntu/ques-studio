@@ -8,7 +8,7 @@ import {
   ImageFile,
   JigsawSize,
   MugColor,
-  PrintSize,
+  PhotoPrintSize,
   TShirtColor,
   TShirtPrintSize,
   TShirtSize,
@@ -26,14 +26,7 @@ const SelectedImageSchema = z.object({
     content: z.string(),
     lastModified: z.number(),
   }),
-  printSize: z
-    .object({
-      id: z.string(),
-      name: z.string(),
-      dimensions: z.string(),
-      price: z.number(),
-    })
-    .optional(),
+  photoPrintSize: z.nativeEnum(PhotoPrintSize).optional(),
   isFramed: z.boolean().optional(),
   mugColor: z.nativeEnum(MugColor).optional(),
   changesColor: z.boolean().optional(),
@@ -95,9 +88,9 @@ export async function saveServiceRequest(
     selectedImages: JSON.parse(formData.get("selectedImages") as string),
     total: parseFloat(formData.get("total") as string),
   });
-
+  
   if (!validatedFields.success) {
-    console.log(validatedFields.error.flatten().fieldErrors);
+    console.error(validatedFields.error.flatten().fieldErrors);
     return <CheckoutFormState>{
       errors: validatedFields.error.flatten().fieldErrors,
       message: "Missed fields, failed to create checkout.",
@@ -169,6 +162,7 @@ export async function saveServiceRequest(
       redirectURL = response.redirectUrl;
     }
   } catch (e) {
+    console.error(e);
     return <CheckoutFormState>{
       message: "Error from server",
       isSuccess: false,
@@ -228,7 +222,7 @@ const handleCheckout = async (metadata: {
   //     size: number;
   //     content: string;
   //   };
-  //   printSize?: PrintSize;
+  //   photoPrintSize?: PhotoPrintSize;
   //   isFramed?: boolean;
   //   mugColor?: MugColor;
   //   changesColor?: boolean;

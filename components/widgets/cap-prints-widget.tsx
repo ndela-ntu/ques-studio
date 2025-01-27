@@ -1,7 +1,5 @@
 import {
     CapColor,
-    ImageFile,
-    PRINT_SIZES,
     useImageContext,
   } from "@/context/image-context";
   import {
@@ -11,9 +9,7 @@ import {
     SelectTrigger,
     SelectValue,
   } from "../ui/select";
-  import { Checkbox } from "../ui/checkbox";
   import { Trash } from "lucide-react";
-  import { useEffect } from "react";
   
   export default function CapPrintsWidget() {
     const { selectedImages, removeImage, updateCapColor } =
@@ -54,9 +50,11 @@ import {
                           <SelectValue placeholder="Select print size" />
                         </SelectTrigger>
                         <SelectContent>
-                          {PRINT_SIZES.map((size) => (
-                            <SelectItem key={size.id} value={size.id}>
-                              {size.name} ({size.dimensions})
+                        {Object.values(CapColor)
+                          .filter((capColor) => typeof capColor === "string")
+                          .map((capColor, index) => (
+                            <SelectItem key={index} value={capColor}>
+                              {capColor}
                             </SelectItem>
                           ))}
                         </SelectContent>

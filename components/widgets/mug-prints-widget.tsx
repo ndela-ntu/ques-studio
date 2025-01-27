@@ -1,7 +1,6 @@
 import {
   ImageFile,
   MugColor,
-  PRINT_SIZES,
   useImageContext,
 } from "@/context/image-context";
 import {

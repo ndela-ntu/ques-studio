@@ -1,7 +1,4 @@
 import {
-  ImageFile,
-  MugColor,
-  PRINT_SIZES,
   TShirtColor,
   TShirtPrintSize,
   TShirtSize,
@@ -14,9 +11,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
-import { Checkbox } from "../ui/checkbox";
 import { Trash } from "lucide-react";
-import { useEffect } from "react";
 
 export default function TShirtPrintsWidget() {
   const {

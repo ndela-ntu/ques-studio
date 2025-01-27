@@ -1,9 +1,9 @@
-import { CapColor, JigsawSize, MugColor, PrintSize, TShirtColor, TShirtPrintSize, TShirtSize } from "@/context/image-context";
+import { CapColor, JigsawSize, MugColor, PhotoPrintSize, TShirtColor, TShirtPrintSize, TShirtSize } from "@/context/image-context";
 import { SerializedFile } from "@/utils/functions/serialize-file";
 
 export interface ISerializedImage {
   file: SerializedFile;
-  printSize?: PrintSize;
+  photoPrintSize?: PhotoPrintSize;
   isFramed?: boolean;
   mugColor?: MugColor;
   changesColor?: boolean;

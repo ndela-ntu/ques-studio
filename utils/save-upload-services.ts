@@ -27,7 +27,7 @@ export default async function saveAndUploadServices(
     const { error: serviceError } = await (await supabase)
       .from("services")
       .insert({
-        printSize: imageFile.printSize,
+        photoPrintSize: imageFile.photoPrintSize,
         isFramed: imageFile.isFramed,
         mugColor: imageFile.mugColor,
         changesColor: imageFile.changesColor,

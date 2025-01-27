@@ -1,8 +1,4 @@
-import {
-  ImageFile,
-  PRINT_SIZES,
-  useImageContext,
-} from "@/context/image-context";
+import { PhotoPrintSize, useImageContext } from "@/context/image-context";
 import {
   Select,
   SelectContent,
@@ -46,20 +42,22 @@ export default function PhotoPrintsWidget() {
                   <div className="mt-2 w-48">
                     <label className="text-sm">Print Size</label>
                     <Select
-                      defaultValue={image.printSize?.id ?? "a4"}
+                      defaultValue={image.photoPrintSize}
                       onValueChange={(value) => {
-                        updatePrintSize(index, value);
+                        updatePrintSize(index, value as PhotoPrintSize);
                       }}
                     >
                       <SelectTrigger>
                         <SelectValue placeholder="Select print size" />
                       </SelectTrigger>
                       <SelectContent>
-                        {PRINT_SIZES.map((size) => (
-                          <SelectItem key={size.id} value={size.id}>
-                            {size.name} ({size.dimensions})
-                          </SelectItem>
-                        ))}
+                        {Object.values(PhotoPrintSize)
+                          .filter((size) => typeof size === "string")
+                          .map((size, index) => (
+                            <SelectItem key={index} value={size}>
+                              {size}
+                            </SelectItem>
+                          ))}
                       </SelectContent>
                     </Select>
                   </div>
