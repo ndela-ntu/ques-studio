@@ -1,11 +1,11 @@
-interface SerializedFile {
+export interface SerializedFile {
   name: string;
   type: string;
   size: number;
   content: string; // Base64 encoded content
 }
 
-const serializeFile = (file: File): Promise<SerializedFile> => {
+export const serializeFile = (file: File): Promise<SerializedFile> => {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
 

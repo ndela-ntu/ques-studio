@@ -1,40 +1,27 @@
+"use client";
+
 import { ImageFile, useImageContext } from "@/context/image-context";
 import { CheckoutFormState, saveServiceRequest } from "@/lib/checkout-actions";
+import { serializeFile } from "@/utils/functions/serialize-file";
 import { ArrowLeft, Loader2 } from "lucide-react";
 import Link from "next/link";
-import { ReactNode } from "react";
-import { useFormState, useFormStatus } from "react-dom";
-
-function SubmitButton({ children }: { children: ReactNode }) {
-  const { pending } = useFormStatus();
-
-  return (
-    <button
-      type="submit"
-      disabled={pending}
-      className="w-full flex items-center justify-center font-bold fixed bottom-0 left-0 bg-white text-black py-2.5"
-    >
-      {pending ? (
-        <Loader2 className="h-7 w-7 animate-spin" />
-      ) : (
-        <span>{children}</span>
-      )}
-    </button>
-  );
-}
+import { useActionState, startTransition } from "react";
 
 export default function CheckoutForm({ id }: { id: number }) {
   const { selectedImages, contextTotal } = useImageContext();
 
-  const initialState:CheckoutFormState = { message: null, errors: {} };
-  const [state, dispatch] = useFormState(saveServiceRequest, initialState);
+  const initialState: CheckoutFormState = { message: null, errors: {} };
+  const [state, dispatch, isPending] = useActionState(
+    saveServiceRequest,
+    initialState
+  );
 
   if (selectedImages.length === 0) {
     return (
       <div className="flex flex-col">
         <p>No images loaded</p>
         <Link
-          href={`service-request/${id}`}
+          href={`/service-request/${id}`}
           className="flex space-x-2 bg-yaleBlue p-2 rounded-2xl"
         >
           <ArrowLeft />
@@ -44,18 +31,36 @@ export default function CheckoutForm({ id }: { id: number }) {
     );
   }
 
-  return (
-    <form
-      action={async (formData) => {
-        const selectedImagesFormData = await Promise.all(selectedImages.map(async(selectedImage) => ({...selectedImage, file: await serializeFile(selectedImage.file)})));
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    
+    try {
+      const selectedImagesFormData = await Promise.all(
+        selectedImages.map(async (selectedImage) => ({
+          ...selectedImage,
+          file: await serializeFile(selectedImage.file),
+        }))
+      );
 
-        formData.append("selectedImages", JSON.stringify(selectedImagesFormData));
-        formData.append("total", contextTotal.toString());
+      formData.append("serviceId", id.toString());
+      formData.append(
+        "selectedImages",
+        JSON.stringify(selectedImagesFormData)
+      );
+      formData.append("total", contextTotal.toString());
+      
+      startTransition(() => {
         dispatch(formData);
-      }}
-    >
+      });
+    } catch (error) {
+      console.error("Error processing form:", error);
+    }
+  };
+
+  return (
+    <form className="p-2.5" onSubmit={handleSubmit}>
       <div className="flex flex-col space-y-5 w-full">
-        <h1 className="text-lg">Checkout</h1>
         <h1 className="text-2xl">Personal Details</h1>
         <div className="sm:flex sm:flex-col lg:grid lg:grid-cols-2 space-y-2.5 lg:space-y-0 lg:gap-5">
           <div className="flex flex-col">
@@ -63,7 +68,7 @@ export default function CheckoutForm({ id }: { id: number }) {
             <input
               type="text"
               name="fullname"
-              className="border p-1.5 bg-transparent"
+              className="border border-black p-1.5 bg-transparent placeholder:text-gray rounded-lg"
               placeholder="Full name"
             />
             <div id="name-error" aria-live="polite" aria-atomic="true">
@@ -80,7 +85,7 @@ export default function CheckoutForm({ id }: { id: number }) {
             <input
               type="email"
               name="email"
-              className="border p-1.5 bg-transparent"
+              className="border border-black p-1.5 bg-transparent placeholder:text-gray rounded-lg"
               placeholder="Email"
             />
             <div id="name-error" aria-live="polite" aria-atomic="true">
@@ -97,7 +102,7 @@ export default function CheckoutForm({ id }: { id: number }) {
             <input
               type="text"
               name="phone"
-              className="border p-1.5 bg-transparent"
+              className="border border-black p-1.5 bg-transparent placeholder:text-gray rounded-lg"
               placeholder="Phone Number"
             />
             <div id="name-error" aria-live="polite" aria-atomic="true">
@@ -117,7 +122,7 @@ export default function CheckoutForm({ id }: { id: number }) {
             <input
               type="text"
               name="streetAddress"
-              className="border p-1.5 bg-transparent"
+              className="border border-black p-1.5 bg-transparent placeholder:text-gray rounded-lg"
               placeholder="Street Address"
             />
             <div id="name-error" aria-live="polite" aria-atomic="true">
@@ -134,7 +139,7 @@ export default function CheckoutForm({ id }: { id: number }) {
             <input
               type="text"
               name="suburb"
-              className="border p-1.5 bg-transparent"
+              className="border border-black p-1.5 bg-transparent placeholder:text-gray rounded-lg"
               placeholder="Suburb"
             />
             <div id="name-error" aria-live="polite" aria-atomic="true">
@@ -151,7 +156,7 @@ export default function CheckoutForm({ id }: { id: number }) {
             <input
               type="text"
               name="city"
-              className="border p-1.5 bg-transparent"
+              className="border border-black p-1.5 bg-transparent placeholder:text-gray rounded-lg"
               placeholder="City"
             />
             <div id="name-error" aria-live="polite" aria-atomic="true">
@@ -168,7 +173,7 @@ export default function CheckoutForm({ id }: { id: number }) {
             <input
               type="text"
               name="postalCode"
-              className="border p-1.5 bg-transparent"
+              className="border border-black p-1.5 bg-transparent placeholder:text-gray rounded-lg"
               placeholder="Postal Code"
             />
             <div id="name-error" aria-live="polite" aria-atomic="true">
@@ -181,7 +186,17 @@ export default function CheckoutForm({ id }: { id: number }) {
             </div>
           </div>
         </div>
-        <SubmitButton>Complete Checkout</SubmitButton>
+        <button
+          type="submit"
+          disabled={isPending}
+          className="w-full flex items-center justify-center font-bold fixed bottom-0 left-0 bg-white text-black py-2.5"
+        >
+          {isPending ? (
+            <Loader2 className="h-7 w-7 animate-spin" />
+          ) : (
+            <span>Complete Checkout</span>
+          )}
+        </button>
       </div>
     </form>
   );

@@ -1,4 +1,6 @@
-const deserializeFile = (serializedFile: SerializedFile): File => {
+import { SerializedFile } from "./serialize-file";
+
+export const deserializeFile = (serializedFile: SerializedFile): File => {
   const { name, type, content } = serializedFile;
 
   // Extract the Base64 portion of the content

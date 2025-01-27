@@ -97,7 +97,8 @@ export async function saveServiceRequest(
     };
   }
 
-  let redirectURL = "/shop/failure";
+  const serviceId = parseInt(formData.get("serviceId") as string);
+  let redirectURL = `/failure/${serviceId}`;
 
   try {
     const {
@@ -122,12 +123,12 @@ export async function saveServiceRequest(
       postalCode,
       selectedImages,
       total,
+      serviceId,
     };
+
     const result = await checkWHExists();
-    console.log(result.subscriptions);
     if (!result.hookExists) {
       const mode = await registerWebhook();
-      console.log(mode);
 
       if (mode === "test" || mode === "live") {
         const response = await handleCheckout(metadata);
@@ -146,11 +147,11 @@ export async function saveServiceRequest(
       errors: [],
     };
   }
-  console.log(redirectURL);
+
   redirect(redirectURL);
 }
 
-const BASE_URL = "https://sxnics.com";
+const BASE_URL = "https://ques-studio.vercel.app";
 const LOCAL_URL = "http://localhost:3000";
 
 const checkWHExists = async () => {
@@ -210,9 +211,9 @@ const handleCheckout = async (metadata: {
     jigsawSize?: JigsawSize;
   }[];
   total: number;
+  serviceId: number;
 }) => {
   try {
-    console.log("Create checkout");
     const response = await fetch(`${BASE_URL}/api/CreateCheckout`, {
       method: "POST",
       body: JSON.stringify({

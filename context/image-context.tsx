@@ -99,6 +99,7 @@ interface ImageContextType {
   updateCapColor: (index: number, color: CapColor) => void;
   updateJigsawSize: (index: number, size: JigsawSize) => void;
   setContextTotal: (total: number) => void;
+  clearSelectedImages: () => void;
 }
 
 const ImageContext = createContext<ImageContextType | undefined>(undefined);
@@ -162,6 +163,7 @@ export const ImageProvider = ({ children }: { children: ReactNode }) => {
       return newImages;
     });
   };
+
   const updateTSize = (index: number, size: TShirtSize) => {
     setSelectedImages((prev) => {
       const newImages = [...prev];
@@ -198,6 +200,10 @@ export const ImageProvider = ({ children }: { children: ReactNode }) => {
     setTotal(total);
   };
 
+  const clearSelectedImages = () => {
+    setSelectedImages([]);
+  };
+
   return (
     <ImageContext.Provider
       value={{
@@ -215,6 +221,7 @@ export const ImageProvider = ({ children }: { children: ReactNode }) => {
         updateCapColor,
         updateJigsawSize,
         setContextTotal,
+        clearSelectedImages,
       }}
     >
       {children}

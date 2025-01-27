@@ -32,7 +32,7 @@ export default function CompleteRequest({
   }
 
   return (
-    <div className="flex flex-col p-1 min-h-screen">
+    <div className="flex flex-col min-h-screen">
       <span className="flex space-x-2 text-yaleBlue font-semibold">
         <label>Summary</label>
         <span>-</span>
