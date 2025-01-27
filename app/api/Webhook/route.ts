@@ -1,10 +1,5 @@
-import { ImageFile } from "@/context/image-context";
 import sendConfirmationEmail from "@/lib/send-confirmation";
-import { MetadataModel } from "@/models/metadata-model";
-import { deserializeFile } from "@/utils/functions/deserialize-file";
-import { SerializedFile } from "@/utils/functions/serialize-file";
 import { createClient } from "@/utils/supabase/server";
-import saveAndUploadServices from "@/utils/upload-multiple-files";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
@@ -20,21 +15,22 @@ export async function POST(req: NextRequest) {
         .select("*")
         .eq("uuid", metadata.uuid);
 
-      const metaWithDeserial: ImageFile[] = metadata.selectedImages.map(
-        (image: MetadataModel) => ({
-          ...image,
-          file: deserializeFile(image.file),
-        })
-      );
+      //   const metaWithDeserial: ImageFile[] = metadata.selectedImages.map(
+      //     (image: MetadataModel) => ({
+      //       ...image,
+      //       file: deserializeFile(image.file),
+      //     })
+      //   );
 
       if (data === null || data.length === 0) {
         const { data: orderData, error: orderError } = await (
           await supabase
         )
           .from("orders")
-          .insert({
-            serviceId: metadata.serviceId,
+          .update({
+            orderStatus: "PAID",
           })
+          .eq("id", metadata.orderId)
           .select("*")
           .single();
 
@@ -42,9 +38,11 @@ export async function POST(req: NextRequest) {
           throw new Error(`Error encounted: ${orderError.message}`);
         }
 
-        await saveAndUploadServices(metaWithDeserial, orderData.id);
+        //await saveAndUploadServices(metaWithDeserial, orderData.id);
 
-        const { data: checkoutData, error: checkoutError } = await (await supabase)
+        const { data: checkoutData, error: checkoutError } = await (
+          await supabase
+        )
           .from("checkout_details")
           .insert({
             uuid: metadata.uuid,
@@ -57,13 +55,19 @@ export async function POST(req: NextRequest) {
             postalCode: metadata.postalCode,
             total: metadata.total,
             orderId: orderData.id,
-          }).select("*").single();
+          })
+          .select("*")
+          .single();
 
         if (checkoutError) {
           throw new Error(`Error encounted: ${checkoutError.message}`);
         }
 
-        await sendConfirmationEmail(metadata.email, checkoutData.id, metadata.total);
+        await sendConfirmationEmail(
+          metadata.email,
+          checkoutData.id,
+          metadata.total
+        );
       }
 
       return NextResponse.json({

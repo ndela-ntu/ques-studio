@@ -5,6 +5,7 @@ import { z } from "zod";
 import { v4 as uuidv4 } from "uuid";
 import {
   CapColor,
+  ImageFile,
   JigsawSize,
   MugColor,
   PrintSize,
@@ -12,6 +13,10 @@ import {
   TShirtPrintSize,
   TShirtSize,
 } from "@/context/image-context";
+import { createClient } from "@/utils/supabase/server";
+import saveAndUploadServices from "@/utils/save-upload-services";
+import { ISerializedImage } from "@/models/serialized-image";
+import { deserializeFile } from "@/utils/functions/deserialize-file";
 
 const SelectedImageSchema = z.object({
   file: z.object({
@@ -19,6 +24,7 @@ const SelectedImageSchema = z.object({
     type: z.string(),
     size: z.number(),
     content: z.string(),
+    lastModified: z.number(),
   }),
   printSize: z
     .object({
@@ -76,6 +82,8 @@ export async function saveServiceRequest(
   prevState: CheckoutFormState,
   formData: FormData
 ) {
+  const supabase = createClient();
+
   const validatedFields = CheckoutSchema.safeParse({
     fullname: formData.get("fullname"),
     email: formData.get("email"),
@@ -113,6 +121,25 @@ export async function saveServiceRequest(
       total,
     } = validatedFields.data;
 
+    const { data: orderData, error: orderError } = await (await supabase)
+      .from("orders")
+      .insert({ serviceId, orderStatus: "PENDING" })
+      .select("*")
+      .single();
+
+    const imageFiles: Omit<ImageFile, "preview">[] = selectedImages.map(
+      (image: ISerializedImage) => ({
+        ...image,
+        file: deserializeFile(image.file),
+      })
+    );
+
+    await saveAndUploadServices(imageFiles, orderData.id);
+
+    if (orderError) {
+      throw new Error(`Failed to insert order: ${orderError.message}`);
+    }
+
     const metadata = {
       fullname,
       email,
@@ -121,9 +148,10 @@ export async function saveServiceRequest(
       suburb,
       city,
       postalCode,
-      selectedImages,
+      //selectedImages,
       total,
       serviceId,
+      orderId: orderData.id,
     };
 
     const result = await checkWHExists();
@@ -157,7 +185,7 @@ const LOCAL_URL = "http://localhost:3000";
 const checkWHExists = async () => {
   try {
     console.log("List webhooks");
-    const response = await fetch(`${BASE_URL}/api/ListWebhooks`, {
+    const response = await fetch(`${LOCAL_URL}/api/ListWebhooks`, {
       method: "GET",
     });
 
@@ -173,7 +201,7 @@ const checkWHExists = async () => {
 const registerWebhook = async () => {
   try {
     console.log("Register webhook");
-    const response = await fetch(`${BASE_URL}/api/RegisterWebhook`, {
+    const response = await fetch(`${LOCAL_URL}/api/RegisterWebhook`, {
       method: "POST",
     });
 
@@ -193,28 +221,29 @@ const handleCheckout = async (metadata: {
   suburb: string;
   city: string;
   postalCode: string;
-  selectedImages: {
-    file: {
-      name: string;
-      type: string;
-      size: number;
-      content: string;
-    };
-    printSize?: PrintSize;
-    isFramed?: boolean;
-    mugColor?: MugColor;
-    changesColor?: boolean;
-    tColor?: TShirtColor;
-    tSize?: TShirtSize;
-    tPrintSize?: TShirtPrintSize;
-    capColor?: CapColor;
-    jigsawSize?: JigsawSize;
-  }[];
+  // selectedImages: {
+  //   file: {
+  //     name: string;
+  //     type: string;
+  //     size: number;
+  //     content: string;
+  //   };
+  //   printSize?: PrintSize;
+  //   isFramed?: boolean;
+  //   mugColor?: MugColor;
+  //   changesColor?: boolean;
+  //   tColor?: TShirtColor;
+  //   tSize?: TShirtSize;
+  //   tPrintSize?: TShirtPrintSize;
+  //   capColor?: CapColor;
+  //   jigsawSize?: JigsawSize;
+  // }[];
   total: number;
   serviceId: number;
+  orderId: number;
 }) => {
   try {
-    const response = await fetch(`${BASE_URL}/api/CreateCheckout`, {
+    const response = await fetch(`${LOCAL_URL}/api/CreateCheckout`, {
       method: "POST",
       body: JSON.stringify({
         amount: metadata.total * 100,

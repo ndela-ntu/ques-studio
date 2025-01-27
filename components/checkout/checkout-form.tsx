@@ -22,7 +22,7 @@ export default function CheckoutForm({ id }: { id: number }) {
         <p>No images loaded</p>
         <Link
           href={`/service-request/${id}`}
-          className="flex space-x-2 bg-yaleBlue p-2 rounded-2xl"
+          className="text-white flex space-x-2 bg-yaleBlue p-2 rounded-2xl"
         >
           <ArrowLeft />
           <span>Go back</span>
@@ -50,9 +50,11 @@ export default function CheckoutForm({ id }: { id: number }) {
       );
       formData.append("total", contextTotal.toString());
       
-      startTransition(() => {
-        dispatch(formData);
-      });
+      console.log(selectedImagesFormData);
+      console.log(selectedImages);
+      // startTransition(() => {
+      //   dispatch(formData);
+      // });
     } catch (error) {
       console.error("Error processing form:", error);
     }

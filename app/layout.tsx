@@ -33,7 +33,7 @@ export default function RootLayout({
           <header className="px-2.5 w-full sticky top-0 z-20 bg-yaleBlue">
             <Navbar />
           </header>
-          <main className="w-full z-10">{children}</main>
+          <main className="w-full z-10 min-h-screen">{children}</main>
           <footer className="my-2.5 flex items-center justify-center text-yaleBlue">
             Copyright by Ques.studio
           </footer>

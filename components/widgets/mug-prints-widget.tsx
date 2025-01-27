@@ -74,7 +74,7 @@ export default function MugPrintsWidget() {
                     <span className="">Mug changes color?</span>
                     <Checkbox
                       className="text-cinereous"
-                      checked={image.changesColor}
+                      checked={image.changesColor === true}
                       onCheckedChange={(checked) => {
                         if (typeof checked === "boolean") {
                           updateColorChanges(index, checked);

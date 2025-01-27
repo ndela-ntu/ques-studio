@@ -2,12 +2,12 @@ import { ImageFile } from "@/context/image-context";
 import { createClient } from "./supabase/server";
 
 export default async function saveAndUploadServices(
-  selectedImages: ImageFile[],
+  selectedImages: Omit<ImageFile, 'preview'>[],
   orderId: number
 ) {
   const supabase = createClient();
 
-  const promises = selectedImages.map(async (imageFile: ImageFile) => {
+  const promises = selectedImages.map(async (imageFile: Omit<ImageFile, 'preview'>) => {
     const { data: imageData, error: imageError } = await (
       await supabase
     ).storage
@@ -25,7 +25,7 @@ export default async function saveAndUploadServices(
       .getPublicUrl(imageData.path);
 
     const { error: serviceError } = await (await supabase)
-      .from("service")
+      .from("services")
       .insert({
         printSize: imageFile.printSize,
         isFramed: imageFile.isFramed,

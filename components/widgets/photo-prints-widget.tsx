@@ -17,7 +17,7 @@ import { useEffect } from "react";
 export default function PhotoPrintsWidget() {
   const { selectedImages, removeImage, updateIsFramed, updatePrintSize } =
     useImageContext();
-    
+
   return (
     <div>
       {selectedImages.length > 0 && (
@@ -44,11 +44,11 @@ export default function PhotoPrintsWidget() {
                     {(image.file.size / 1024).toFixed(1)} KB
                   </p>
                   <div className="mt-2 w-48">
-                  <label className="text-sm">Print Size</label>
+                    <label className="text-sm">Print Size</label>
                     <Select
-                      defaultValue="a4"
+                      defaultValue={image.printSize?.id ?? "a4"}
                       onValueChange={(value) => {
-                        updatePrintSize(index, value)
+                        updatePrintSize(index, value);
                       }}
                     >
                       <SelectTrigger>
@@ -67,7 +67,7 @@ export default function PhotoPrintsWidget() {
                     <span className="">Add Frame?</span>
                     <Checkbox
                       className="text-cinereous"
-                      checked={image.isFramed}
+                      checked={image.isFramed === true}
                       onCheckedChange={(checked) => {
                         if (typeof checked === "boolean") {
                           updateIsFramed(index, checked);

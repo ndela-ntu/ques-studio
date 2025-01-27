@@ -10,8 +10,14 @@ import {
 import { MoveRight, Trash } from "lucide-react";
 import React, { useRef, useEffect, ReactNode } from "react";
 import {
+  CapColor,
   ImageFile,
+  JigsawSize,
+  MugColor,
   PRINT_SIZES,
+  TShirtColor,
+  TShirtPrintSize,
+  TShirtSize,
   useImageContext,
 } from "@/context/image-context";
 import Link from "next/link";
@@ -33,9 +39,61 @@ export default function PrintsWidget({ type }: Props) {
     const files = event.target.files;
     if (!files) return;
 
-    const newImages = Array.from(files).map((file) => ({
+    let resProperties: Omit<ImageFile, "file" | "preview">;
+    switch (type) {
+      case "photos":
+        {
+          resProperties = {
+            isFramed: false,
+            printSize: PRINT_SIZES[0],
+          };
+        }
+        break;
+      case "mugs":
+        {
+          resProperties = {
+            mugColor: MugColor.WHITE,
+            changesColor: false,
+          };
+        }
+        break;
+      case "t-shirts":
+        {
+          resProperties = {
+            tColor: TShirtColor.WHITE,
+            tSize: TShirtSize.M,
+            tPrintSize: TShirtPrintSize.POCKET,
+          };
+        }
+        break;
+      case "caps":
+        {
+          resProperties = {
+            capColor: CapColor.WHITE,
+          };
+        }
+        break;
+      case "jigsaw":
+        {
+          resProperties = {
+            jigsawSize: JigsawSize.MEDIUM,
+          };
+        }
+        break;
+      default:
+        {
+          resProperties = {
+            isFramed: false,
+            printSize: PRINT_SIZES[0],
+          };
+        }
+        break;
+    }
+
+    const newImages: ImageFile[] = Array.from(files).map((file) => ({
       file,
       preview: URL.createObjectURL(file),
+      ...resProperties,
     }));
 
     addImages(newImages);
@@ -87,10 +145,10 @@ export default function PrintsWidget({ type }: Props) {
         serviceId = 4;
       }
       break;
-      case 'jigsaw': {
-        widgetToDisplay = <JigsawPrintsWidget />
-        serviceId = 5;
-      }
+    case "jigsaw": {
+      widgetToDisplay = <JigsawPrintsWidget />;
+      serviceId = 5;
+    }
     default:
       {
         widgetToDisplay = <PhotoPrintsWidget />;

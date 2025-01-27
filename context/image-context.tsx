@@ -109,6 +109,7 @@ export const ImageProvider = ({ children }: { children: ReactNode }) => {
   const [contextTotal, setTotal] = useState<number>(0);
 
   const addImages = (newImages: ImageFile[]) => {
+    
     setSelectedImages((prev) => [...prev, ...newImages]);
   };
 
